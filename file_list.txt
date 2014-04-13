@@ -1,0 +1,16 @@
+5510862    4 -rw-rw-r--   1 peter    peter        1569 Apr 13 19:19 ./dir_list.txt
+5509923    4 -rw-rw-r--   1 peter    peter        2556 Apr 13 19:00 ./main.cpp
+5510771  128 -rwxrwxr-x   1 peter    peter      128015 Apr 13 18:37 ./hwk3a
+5510424    4 -rw-rw-r--   1 peter    peter         301 Apr 13 19:05 ./Tree_node/Tree_node.h
+5510670    4 -rw-rw-r--   1 peter    peter         280 Apr 13 18:56 ./Tree_node/Directory_node/Directory_node.cpp
+5510669    4 -rw-rw-r--   1 peter    peter         425 Apr 13 19:07 ./Tree_node/Directory_node/Directory_node.h
+5510615    4 -rw-rw-r--   1 peter    peter         248 Apr 13 17:36 ./Tree_node/File_node/File/File.cpp
+5510614    4 -rw-rw-r--   1 peter    peter         717 Apr 13 19:07 ./Tree_node/File_node/File/File.h
+5510586    4 -rw-rw-r--   1 peter    peter         429 Apr 13 17:42 ./Tree_node/File_node/File_node.cpp
+5510585    4 -rw-rw-r--   1 peter    peter         466 Apr 13 19:06 ./Tree_node/File_node/File_node.h
+5510703    4 -rw-rw-r--   1 peter    peter         702 Apr 13 19:10 ./Disk_node/Disk_node.cpp
+5510702    4 -rw-rw-r--   1 peter    peter         986 Apr 13 19:10 ./Disk_node/Disk_node.h
+5510925    0 -rw-rw-r--   1 peter    peter           0 Apr 13 19:19 ./file_list.txt
+5510639    4 -rw-------   1 peter    peter         366 Apr 13 17:48 ./Makefile
+5510542    0 -rw-rw-r--   1 peter    peter           0 Apr 13 16:03 ./readme.txt
+5510583    4 -rw-rw-r--   1 peter    peter         415 Apr 13 19:07 ./main.h
