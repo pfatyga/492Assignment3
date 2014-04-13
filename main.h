@@ -10,9 +10,9 @@
 #define MAIN_H_
 
 #include "Disk_node/Disk_node.h"
-#include "File/File.h"
-#include "Tree_node.h"
-#include "File_node/File_node.h"
-#include "Directory_node/Directory_node.h"
+#include "Tree_node/Tree_node.h"
+#include "Tree_node/File_node/File/File.h"
+#include "Tree_node/File_node/File_node.h"
+#include "Tree_node/Directory_node/Directory_node.h"
 
 #endif /* MAIN_H_ */

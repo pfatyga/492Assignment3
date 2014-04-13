@@ -11,7 +11,7 @@
 
 #include <string>
 #include "../Tree_node.h"
-#include "../File/File.h"
+#include "File/File.h"
 
 class File_node: public Tree_node {
 	std::string name;
