@@ -9,11 +9,15 @@
 #ifndef TREE_NODE_H_
 #define TREE_NODE_H_
 
+#include "main.h"
+
 class Tree_node {
 
 public:
 	Tree_node() {};
 	virtual ~Tree_node() {};
+
+	static Disk_node *disk_nodes;
 };
 
 #endif /* TREE_NODE_H_ */

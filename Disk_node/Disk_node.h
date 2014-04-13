@@ -14,6 +14,8 @@
 #ifndef DISK_NODE_H_
 #define DISK_NODE_H_
 
+#include "main.h"
+
 class Disk_node {
 	unsigned int block_ID_start;
 	unsigned int block_ID_end;
@@ -23,6 +25,7 @@ class Disk_node {
 public:
 	Disk_node(unsigned int block_ID_start, unsigned int block_ID_end);
 	virtual ~Disk_node();
+	void update_size();
 	void split(unsigned int next_block_ID_start);	//splits this Disk_node into 2 nodes with the second one starting at next_block_id_start and this one ending at next_block_id_start-1
 };
 

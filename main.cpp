@@ -17,6 +17,9 @@ using namespace std;
 int main(int argc, char **argv) {
 	unsigned int disk_size = 0;
 	unsigned int block_size = 0;
+	unsigned int number_of_blocks = 0;
+	Directory_node *G_root = new Directory_node("/");	//root directory is "/"
+	Disk_node *L_disk;
 	ifstream dir_list;
 	ifstream file_list;
 
@@ -93,6 +96,11 @@ int main(int argc, char **argv) {
 
 	//DEBUGGING
 	cout << "dir_list: " << dir_list << ", file_list: " << file_list << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
+
+	number_of_blocks = disk_size / block_size;
+	L_disk = new Disk_node(0, number_of_blocks-1);
+
+	Tree_node::disk_nodes = L_disk;
 
 
 

@@ -14,5 +14,8 @@
 #include "Tree_node/File_node/File/File.h"
 #include "Tree_node/File_node/File_node.h"
 #include "Tree_node/Directory_node/Directory_node.h"
+#include <cassert>
+#include <string>
+#include <map>
 
 #endif /* MAIN_H_ */
