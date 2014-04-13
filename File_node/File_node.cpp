@@ -9,7 +9,9 @@
 #include "File_node.h"
 
 File_node::File_node(std::string file_name, unsigned int file_size) {
-	file = new File(file_name, file_size);
+	name = file_name;
+	size = file_size;
+	update_timestamp();
 }
 
 File_node::~File_node() {
@@ -19,5 +21,9 @@ File_node::~File_node() {
 
 File *File_node::get_file() {
 	return file;
+}
+
+void File_node::update_timestamp() {
+
 }
 

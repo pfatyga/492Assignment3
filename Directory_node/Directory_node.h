@@ -10,7 +10,7 @@
 
 #include <map>
 #include <string>
-#include "Tree_node.h"
+#include "../Tree_node.h"
 
 class Directory_node: public Tree_node {
 	std::string name;
