@@ -9,7 +9,8 @@
 #ifndef TREE_NODE_H_
 #define TREE_NODE_H_
 
-#include "main.h"
+#include "../main.h"
+#include "../Disk_node/Disk_node.h"
 
 class Tree_node {
 

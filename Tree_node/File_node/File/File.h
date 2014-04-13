@@ -10,7 +10,7 @@
 #ifndef FILE_H_
 #define FILE_H_
 
-#include "main.h"
+#include "../../../main.h"
 
 /*
  * Each node in Lfile represents a file block.

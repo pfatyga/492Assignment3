@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include <fstream>
 #include "main.h"
+#include "Tree_node/Directory_node/Directory_node.h"
+#include "Tree_node/Tree_node.h"
 using namespace std;
 
 int main(int argc, char **argv) {
@@ -101,8 +103,6 @@ int main(int argc, char **argv) {
 	L_disk = new Disk_node(0, number_of_blocks-1);
 
 	Tree_node::disk_nodes = L_disk;
-
-
 
 	dir_list.close();
 	file_list.close();

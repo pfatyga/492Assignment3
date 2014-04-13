@@ -9,7 +9,9 @@
 #ifndef FILE_NODE_H_
 #define FILE_NODE_H_
 
-#include "main.h"
+#include "../../main.h"
+#include "../Tree_node.h"
+#include "File/File.h"
 
 class File_node: public Tree_node {
 	std::string name;

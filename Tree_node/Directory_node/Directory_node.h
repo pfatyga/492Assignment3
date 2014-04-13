@@ -8,7 +8,8 @@
 #ifndef DIRECTORY_NODE_H_
 #define DIRECTORY_NODE_H_
 
-#include "main.h"
+#include "../../main.h"
+#include "../Tree_node.h"
 
 class Directory_node: public Tree_node {
 	std::string name;

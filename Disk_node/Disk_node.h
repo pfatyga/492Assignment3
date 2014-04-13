@@ -14,7 +14,7 @@
 #ifndef DISK_NODE_H_
 #define DISK_NODE_H_
 
-#include "main.h"
+#include "../main.h"
 
 class Disk_node {
 	unsigned int block_ID_start;
