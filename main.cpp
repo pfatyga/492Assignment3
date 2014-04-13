@@ -17,7 +17,8 @@ using namespace std;
 int main(int argc, char **argv) {
 	unsigned int disk_size = 0;
 	unsigned int block_size = 0;
-	ifstream input_file;
+	ifstream dir_list;
+	ifstream file_list;
 
 	/* Your program must accept the following parameters at the command prompt:
 
@@ -25,28 +26,35 @@ int main(int argc, char **argv) {
 		-s [disk size]
 		-b [block size]
 	 */
-	if(argc != 7)
+	if(argc != 8)
 	{
 		cout << "Usage: ";
 		cout << argv[0];	//name of program is printed
-		cout << " -f [F] -s [S] -b [B]\n";
-		cout << "F: input files storing information on directories and files\n";
+		cout << " -f [F1] [F2] -s [S] -b [B]\n";
+		cout << "F1: Directory list input\n";
+		cout << "F2: File list input\n";
 		cout << "S: disk size\n";
 		cout << "B: block size\n";
 		return 0;
 	}
 
-	//argv[1], argv[3], argv[5]
-	for(int i = 1; i <= 5; i += 2)
+	for(int i = 1; i < 8;)
 	{
 		if(strcmp(argv[i], "-f") == 0)
 		{
-			input_file.open(argv[i+1], std::ifstream::in);
-			if(!input_file.is_open())
+			dir_list.open(argv[i+1], std::ifstream::in);
+			if(!dir_list.is_open())
 			{
-				cout << "Input file could not be opened.\n";
+				cout << "Dir list input [F1] could not be opened.\n";
 				return 0;
 			}
+			file_list.open(argv[i+2], std::ifstream::in);
+			if(!file_list.is_open())
+			{
+				cout << "File list input [F2] could not be opened.\n";
+				return 0;
+			}
+			i+=3;	//2 parameters
 		}
 		else if(strcmp(argv[i], "-s") == 0)
 		{
@@ -56,6 +64,7 @@ int main(int argc, char **argv) {
 				return 0;
 			}
 			disk_size = atoi(argv[i+1]);
+			i += 2; //1 parameter
 		}
 		else if(strcmp(argv[i], "-b") == 0)
 		{
@@ -65,6 +74,7 @@ int main(int argc, char **argv) {
 				return 0;
 			}
 			block_size = atoi(argv[i+1]);
+			i += 2;	//1 parameter
 		}
 		else
 		{
@@ -75,18 +85,19 @@ int main(int argc, char **argv) {
 
 
 	//check if all input was received
-	if(input_file == "" || disk_size == 0 || block_size == 0)
+	if(!dir_list.is_open() || !file_list.is_open() || disk_size == 0 || block_size == 0)
 	{
 		cout << "Please provide all input.\n";
 		return 0;
 	}
 
 	//DEBUGGING
-	cout << "input_file: " << input_file << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
+	cout << "dir_list: " << dir_list << ", file_list: " << file_list << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
 
 
 
-	input_file.close();
+	dir_list.close();
+	file_list.close();
 
 	return 0;
 }
