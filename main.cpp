@@ -3,7 +3,7 @@
 // Author      : Piotr Fatyga
 // Version     :
 // Copyright   : 
-// Description : Hello World in C++, Ansi-style
+// Description : CS 492 Assignment 3
 //============================================================================
 
 #include <iostream>
