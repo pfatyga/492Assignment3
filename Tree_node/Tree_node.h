@@ -13,10 +13,14 @@
 #include "../Disk_node/Disk_node.h"
 
 class Tree_node {
-
+protected:
+	std::string name;
+	std::string path;
 public:
 	Tree_node() {};
 	virtual ~Tree_node() {};
+	std::string get_name();
+	std::string get_path();
 
 	static Disk_node *disk_nodes;
 };

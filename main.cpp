@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 	unsigned int disk_size = 0;
 	unsigned int block_size = 0;
 	unsigned int number_of_blocks = 0;
-	Directory_node *G_root = new Directory_node("/");	//root directory is "/"
+	Directory_node *G_root = new Directory_node(".");	//root directory is "/"
 	Disk_node *L_disk;
 	ifstream dir_list;
 	ifstream file_list;
@@ -97,12 +97,21 @@ int main(int argc, char **argv) {
 	}
 
 	//DEBUGGING
-	cout << "dir_list: " << dir_list << ", file_list: " << file_list << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
+	//cout << "dir_list: " << dir_list << ", file_list: " << file_list << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
 
 	number_of_blocks = disk_size / block_size;
 	L_disk = new Disk_node(0, number_of_blocks-1);
 
 	Tree_node::disk_nodes = L_disk;
+
+	while(!dir_list.eof() && !dir_list.fail())
+	{
+		char path[1000];
+		dir_list >> path;
+		G_root->create_directory(path);
+	}
+
+	Directory_node::BFS_print(G_root);
 
 	dir_list.close();
 	file_list.close();

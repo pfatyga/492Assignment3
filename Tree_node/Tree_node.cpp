@@ -8,3 +8,11 @@
 #include "Tree_node.h"
 
 Disk_node *Tree_node::disk_nodes;
+
+std::string Tree_node::get_name() {
+	return name;
+}
+
+std::string Tree_node::get_path() {
+	return path;
+}

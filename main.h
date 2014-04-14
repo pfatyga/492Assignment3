@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cassert>
 #include <string>
+#include <cstring>
 #include <map>
 
 #endif /* MAIN_H_ */

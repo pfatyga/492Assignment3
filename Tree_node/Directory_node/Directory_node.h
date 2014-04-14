@@ -10,14 +10,17 @@
 
 #include "../../main.h"
 #include "../Tree_node.h"
+#include <queue>
 
 class Directory_node: public Tree_node {
-	std::string name;
-	std::string path;
 	std::map<std::string, Tree_node *> children;	//key: name of file/directory
 public:
 	Directory_node(std::string directory_name);
+	Directory_node(std::string directory_name, std::string directory_path);
 	virtual ~Directory_node();
+	void create_directory(char *path);
+	bool create_subdirectory(std::string name);
+	static void BFS_print(Directory_node *root);
 };
 
 #endif /* DIRECTORY_NODE_H_ */
