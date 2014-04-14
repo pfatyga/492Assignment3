@@ -83,7 +83,8 @@ void Disk_node::merge() {
 			temp->next = this;
 		} else {
 			temp->next = this->next;
-			temp->next->prev = temp;
+			if(temp->next != NULL)
+				temp->next->prev = temp;
 			temp->block_ID_end = this->block_ID_end;
 			temp->update_size();
 			delete this;//we cant delete the root. It might be used somewhere else. Delete this object instead
