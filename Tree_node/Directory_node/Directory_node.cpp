@@ -28,6 +28,7 @@ void Directory_node::create_directory(char *path) {
 		return;
 	else
 	{
+		std::cout << "Creating directory " << path << '\n';
 		Directory_node *temp = this;
 		std::string temp_path = "";
 		char *directory_name = strtok(path, "/");
@@ -53,7 +54,8 @@ void Directory_node::create_directory(char *path) {
 	}
 }
 
-void Directory_node::create_file(char *path, unsigned int size) {
+bool Directory_node::create_file(char *path, unsigned int size) {
+	std::cout << "Creating file " << path << '\n';
 	Directory_node *temp = this;
 	std::string temp_path = "";
 	char *file_name = strtok(path, "/");
@@ -72,9 +74,10 @@ void Directory_node::create_file(char *path, unsigned int size) {
 			{
 				if(!(temp_name = strtok(NULL, "/")))	//if there is no more in string then create the file
 				{
-					temp->children[file_name] = new File_node(file_name, temp_path, size);
-					//TODO: allocate disk space
-					return;
+					File_node *file = new File_node(file_name, temp_path, size);
+					bool success = file->allocate_disk_space();
+					temp->children[file_name] = file;
+					return success;
 				}
 				else
 				{
@@ -90,6 +93,7 @@ void Directory_node::create_file(char *path, unsigned int size) {
 
 		file_name = strtok(NULL, "/");
 	}
+	return false;
 }
 
 bool Directory_node::create_subdirectory(std::string name) {
@@ -105,9 +109,9 @@ bool Directory_node::create_subdirectory(std::string name) {
 }
 
 void Directory_node::BFS_print(Tree_node *root) {
+	std::cout << root->get_path() << '\n';
 	if(!(root->is_directory()))
 		return;
-	std::cout << root->get_path() << '\n';
 	Directory_node *temp = dynamic_cast<Directory_node *>(root);
 	for(auto it = temp->children.begin(); it != temp->children.end(); it++)
 	{

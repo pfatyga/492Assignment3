@@ -20,7 +20,7 @@ public:
 	Directory_node(std::string directory_name, std::string directory_path);
 	virtual ~Directory_node();
 	void create_directory(char *path);
-	void create_file(char *path, unsigned int size);
+	bool create_file(char *path, unsigned int size);
 	bool create_subdirectory(std::string name);
 	static void BFS_print(Tree_node *root);
 };

@@ -25,6 +25,7 @@ public:
 	bool is_directory();
 	//static void BFS_print(Tree_node *root);
 	static Disk_node *disk_nodes;
+
 };
 
 #endif /* TREE_NODE_H_ */

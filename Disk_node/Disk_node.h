@@ -33,7 +33,12 @@ public:
 	void update_size();
 	void split(unsigned int next_block_ID_start);	//splits this Disk_node into 2 nodes with the second one starting at next_block_id_start and this one ending at next_block_id_start-1
 	void merge();
+	Disk_node *get_next_free_block();
 	unsigned int size();
+
+	static unsigned int block_size;
+	static unsigned int disk_size;
+	static unsigned int total_blocks;
 
 	friend std::ostream &operator<<(std::ostream &os, Disk_node const &node);
 };

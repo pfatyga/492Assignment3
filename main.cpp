@@ -100,6 +100,11 @@ int main(int argc, char **argv) {
 	//cout << "dir_list: " << dir_list << ", file_list: " << file_list << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
 
 	number_of_blocks = disk_size / block_size;
+
+	Disk_node::total_blocks = number_of_blocks;
+	Disk_node::disk_size = disk_size;
+	Disk_node::block_size = block_size;
+
 	L_disk = new Disk_node(0, number_of_blocks-1);
 
 	Tree_node::disk_nodes = L_disk;
@@ -126,12 +131,18 @@ int main(int argc, char **argv) {
 		//cout << size << '\n';
 		file_list >> path;
 		//cout << path << '\n';
-		G_root->create_file(path, size);
+		if(!G_root->create_file(path, size))
+		{
+			cout << "Failed to allocate disk space.\n";
+			file_list.close();
+			return 0;
+		}
 	}
 
 	file_list.close();
 
 	Directory_node::BFS_print(G_root);
+	cout << *L_disk << '\n';
 
 	return 0;
 }

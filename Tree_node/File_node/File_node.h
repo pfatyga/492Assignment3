@@ -20,6 +20,7 @@ class File_node: public Tree_node {
 public:
 	File_node(std::string file_name, std::string file_path, unsigned int file_size);
 	virtual ~File_node();
+	bool allocate_disk_space();
 	File *get_file();
 	void update_timestamp();
 };

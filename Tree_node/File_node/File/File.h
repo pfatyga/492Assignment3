@@ -23,12 +23,13 @@
  */
 
 class File {
-	unsigned int block_address;
 
-	File *next;	//linked list
 public:
+	unsigned int block_address;
+	File *next;	//linked list
 	File(unsigned int block_address);
 	virtual ~File();
+	void append(File *end);
 };
 
 #endif /* FILE_H_ */
