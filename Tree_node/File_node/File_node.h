@@ -14,13 +14,11 @@
 #include "File/File.h"
 
 class File_node: public Tree_node {
-	std::string name;
-	std::string path;
 	unsigned int size;
 	std::string timestamp;
 	File *file;
 public:
-	File_node(std::string file_name, unsigned int file_size);
+	File_node(std::string file_name, std::string file_path, unsigned int file_size);
 	virtual ~File_node();
 	File *get_file();
 	void update_timestamp();

@@ -111,10 +111,27 @@ int main(int argc, char **argv) {
 		G_root->create_directory(path);
 	}
 
-	Directory_node::BFS_print(G_root);
-
 	dir_list.close();
+
+	while(!file_list.eof() && !file_list.fail())
+	{
+		string ignore;
+		unsigned int size;
+		string month;
+		string day;
+		string time;
+		char path[1000];
+		file_list >> ignore >> ignore >> ignore >> ignore >> ignore >> ignore;
+		file_list >> size >> month >> day >> time;
+		//cout << size << '\n';
+		file_list >> path;
+		//cout << path << '\n';
+		G_root->create_file(path, size);
+	}
+
 	file_list.close();
+
+	Directory_node::BFS_print(G_root);
 
 	return 0;
 }

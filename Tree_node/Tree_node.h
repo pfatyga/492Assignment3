@@ -23,6 +23,7 @@ public:
 	std::string get_name();
 	std::string get_path();
 	bool is_directory();
+	//static void BFS_print(Tree_node *root);
 	static Disk_node *disk_nodes;
 };
 

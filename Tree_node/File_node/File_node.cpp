@@ -8,8 +8,9 @@
 
 #include "File_node.h"
 
-File_node::File_node(std::string file_name, unsigned int file_size) {
+File_node::File_node(std::string file_name, std::string file_path, unsigned int file_size) {
 	name = file_name;
+	path = file_path;
 	size = file_size;
 	directory = false;
 	update_timestamp();
