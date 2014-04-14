@@ -41,11 +41,8 @@ void Disk_node::split(unsigned int next_block_ID_start) {
 	//std::cout << "Splitting [" << block_ID_start << "," << block_ID_end << "] at " << next_block_ID_start << '\n';
 	if (next_block_ID_start > this->block_ID_end)
 		return;
-	assert(
-			next_block_ID_start > this->block_ID_start
-					&& next_block_ID_start < this->block_ID_end);
-	next = new Disk_node(next_block_ID_start, this->block_ID_end, this,
-			this->next);
+	assert(next_block_ID_start > this->block_ID_start && next_block_ID_start < this->block_ID_end);
+	next = new Disk_node(next_block_ID_start, this->block_ID_end, this, this->next);
 	block_ID_end = next_block_ID_start - 1;
 	update_size();
 	assert(block_ID_start <= block_ID_end);

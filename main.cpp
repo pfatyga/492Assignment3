@@ -131,6 +131,8 @@ int main(int argc, char **argv) {
 		//cout << size << '\n';
 		file_list >> path;
 		//cout << path << '\n';
+		if(strcmp(path, ".") == 0)
+			continue;
 		if(!G_root->create_file(path, size))
 		{
 			cout << "Failed to allocate disk space.\n";
