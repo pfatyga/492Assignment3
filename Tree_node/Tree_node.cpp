@@ -16,3 +16,7 @@ std::string Tree_node::get_name() {
 std::string Tree_node::get_path() {
 	return path;
 }
+
+bool Tree_node::is_directory() {
+	return directory;
+}

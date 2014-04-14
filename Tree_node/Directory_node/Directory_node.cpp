@@ -10,11 +10,13 @@
 Directory_node::Directory_node(std::string directory_name) {
 	name = directory_name;
 	path = directory_name;	//this is only used when creating the root node which has the same name and path (.)
+	directory = true;
 }
 
 Directory_node::Directory_node(std::string directory_name, std::string directory_path) {
 	name = directory_name;
 	path = directory_path;
+	directory = true;
 }
 
 Directory_node::~Directory_node() {
@@ -63,9 +65,12 @@ bool Directory_node::create_subdirectory(std::string name) {
 	}
 }
 
-void Directory_node::BFS_print(Directory_node *root) {
-	std::cout << root->path << '\n';
-	for(auto it = root->children.begin(); it != root->children.end(); it++)
+void Directory_node::BFS_print(Tree_node *root) {
+	std::cout << root->get_path() << '\n';
+	if(!root->is_directory())
+		return;
+	Directory_node *temp = dynamic_cast<Directory_node *>(root);
+	for(auto it = temp->children.begin(); it != temp->children.end(); it++)
 	{
 		BFS_print(dynamic_cast<Directory_node *>((*it).second));
 	}

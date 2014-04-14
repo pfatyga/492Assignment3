@@ -20,7 +20,7 @@ public:
 	virtual ~Directory_node();
 	void create_directory(char *path);
 	bool create_subdirectory(std::string name);
-	static void BFS_print(Directory_node *root);
+	static void BFS_print(Tree_node *root);
 };
 
 #endif /* DIRECTORY_NODE_H_ */

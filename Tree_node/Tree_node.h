@@ -16,12 +16,13 @@ class Tree_node {
 protected:
 	std::string name;
 	std::string path;
+	bool directory;	//1 - directory, 0 - file
 public:
 	Tree_node() {};
 	virtual ~Tree_node() {};
 	std::string get_name();
 	std::string get_path();
-
+	bool is_directory();
 	static Disk_node *disk_nodes;
 };
 
