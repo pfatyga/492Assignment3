@@ -20,7 +20,9 @@ int main(int argc, char **argv) {
 	unsigned int disk_size = 0;
 	unsigned int block_size = 0;
 	unsigned int number_of_blocks = 0;
+	string command;
 	Directory_node *G_root = new Directory_node(".");	//root directory is "/"
+	Directory_node *current_directory = G_root;
 	Disk_node *L_disk;
 	ifstream dir_list;
 	ifstream file_list;
@@ -131,7 +133,7 @@ int main(int argc, char **argv) {
 		//cout << size << '\n';
 		file_list >> path;
 		//cout << path << '\n';
-		if(strcmp(path, ".") == 0)
+		if(strcmp(path, ".") == 0)	//weird issue where it reads . as the path even though it's not in there
 			continue;
 		if(!G_root->create_file(path, size))
 		{
@@ -143,8 +145,100 @@ int main(int argc, char **argv) {
 
 	file_list.close();
 
-	Directory_node::BFS_print(G_root);
-	cout << *L_disk << '\n';
+	//Directory_node::BFS_print(G_root);
+	//cout << *L_disk << '\n';
+	cout << current_directory->get_path() << "> ";
+	cin >> command;
+	while(command != "exit")
+	{
+		/*
+		 * 	cd [directory]- set specified directory as the current directory
+			cd..- set parent directory as current directory
+			ls - list all files and sub-directories in current directory
+			mkdir [name]- create a new directory in the current directory
+			create [name]- create a new file in the current directory
+			append [name] [bytes]-append a number of bytes to the file
+			remove [name] [bytes]-delete a number of bytes from the file
+			delete [name]- delete the file or directory
+			exit-de-allocate data structures and exit program
+			dir- print outdirectory tree in breadth-first order
+			prfiles- print out all file information
+			prdisk- print out disk space information
+		 */
+		if(command == "cd")
+		{
+			string directory;
+			cin >> directory;
+			if(directory == "..")
+			{
+				if(current_directory->parent_directory != NULL)
+				{
+					current_directory = current_directory->parent_directory;
+				}
+				else
+				{
+					std::cout << "no parent directory\n";
+				}
+			}
+			else if(directory == ".")
+			{
+				//current_directory = current_directory;	//dont do anything
+			}
+			else if(current_directory->children.find(directory) != current_directory->children.end())	//cant just check current_directory->children[directory] == NULL because it actually creates the key,value pair and then causes segfaults later on
+			{
+				if(current_directory->children[directory]->is_directory())
+				{
+					current_directory = dynamic_cast<Directory_node *>(current_directory->children[directory]);
+				}
+				else	//not a directory
+				{
+					std::cout << "not a directory: " << directory << '\n';
+				}
+			}
+			else
+			{
+				std::cout << "no such file or directory: " << directory << '\n';
+			}
+		}
+		else if(command == "ls")
+		{
+
+		}
+		else if(command == "mkdir")
+		{
+
+		}
+		else if(command == "create")
+		{
+
+		}
+		else if(command == "append")
+		{
+
+		}
+		else if(command == "remove")
+		{
+
+		}
+		else if(command == "delete")
+		{
+
+		}
+		else if(command == "dir")
+		{
+			Directory_node::dir_print(current_directory);
+		}
+		else if(command == "prfiles")
+		{
+
+		}
+		else if(command == "prdisk")
+		{
+
+		}
+		cout << current_directory->get_path() << "> ";
+		cin >> command;
+	}
 
 	return 0;
 }

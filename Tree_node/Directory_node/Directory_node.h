@@ -14,14 +14,18 @@
 #include <queue>
 
 class Directory_node: public Tree_node {
-	std::map<std::string, Tree_node *> children;	//key: name of file/directory
+
 public:
+	Directory_node *parent_directory;
+	std::map<std::string, Tree_node *> children;	//key: name of file/directory
+
 	Directory_node(std::string directory_name);
-	Directory_node(std::string directory_name, std::string directory_path);
+	Directory_node(std::string directory_name, std::string directory_path, Directory_node *parent_directory);
 	virtual ~Directory_node();
 	void create_directory(char *path);
 	bool create_file(char *path, unsigned int size);
 	bool create_subdirectory(std::string name);
+	static void dir_print(Tree_node *root);
 	static void BFS_print(Tree_node *root);
 };
 

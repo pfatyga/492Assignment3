@@ -10,12 +10,14 @@
 Directory_node::Directory_node(std::string directory_name) {
 	name = directory_name;
 	path = directory_name;	//this is only used when creating the root node which has the same name and path (.)
+	parent_directory = NULL;
 	directory = true;
 }
 
-Directory_node::Directory_node(std::string directory_name, std::string directory_path) {
+Directory_node::Directory_node(std::string directory_name, std::string directory_path, Directory_node *parent_directory) {
 	name = directory_name;
 	path = directory_path;
+	this->parent_directory = parent_directory;
 	directory = true;
 }
 
@@ -44,7 +46,7 @@ void Directory_node::create_directory(char *path) {
 				temp_path += directory_name;
 				if(temp->children[directory_name] == NULL)
 				{
-					temp->children[directory_name] = new Directory_node(directory_name, temp_path);
+					temp->children[directory_name] = new Directory_node(directory_name, temp_path, temp);
 				}
 				temp = dynamic_cast<Directory_node *>(temp->children[directory_name]);
 			}
@@ -82,7 +84,7 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 				else
 				{
 					file_name = temp_name;
-					temp->children[file_name] = new Directory_node(file_name, temp_path);
+					temp->children[file_name] = new Directory_node(file_name, temp_path, temp);
 					temp = dynamic_cast<Directory_node *>(temp->children[file_name]);
 					std::cout << "Created a directory when adding a file....should not happen.\n";
 					continue;	//need to skip strtok because we already did it
@@ -99,12 +101,21 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 bool Directory_node::create_subdirectory(std::string name) {
 	if(this->children[name] == NULL)
 	{
-		this->children[name] = new Directory_node(name, this->path + "/" + name);
+		this->children[name] = new Directory_node(name, this->path + "/" + name, this);
 		return true;
 	}
 	else	//directory already exists
 	{
 		return false;
+	}
+}
+
+void Directory_node::dir_print(Tree_node *root) {
+	Directory_node *temp = dynamic_cast<Directory_node *>(root);
+	for(auto it = temp->children.begin(); it != temp->children.end(); it++)
+	{
+		if((*it).second->is_directory())
+			std::cout << (*it).second->get_name() << '\n';
 	}
 }
 
