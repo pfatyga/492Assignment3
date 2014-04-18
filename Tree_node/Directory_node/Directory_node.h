@@ -24,8 +24,11 @@ public:
 	virtual ~Directory_node();
 	void create_directory(char *path);
 	bool create_file(char *path, unsigned int size);
+	bool create_file(std::string name, unsigned int size);
 	bool create_subdirectory(std::string name);
-	static void dir_print(Tree_node *root);
+	bool delete_child(std::string name);	//delete a file or directory
+	static void dir_print(Directory_node *root);
+	static void ls_print(Directory_node *root);
 	static void BFS_print(Tree_node *root);
 };
 

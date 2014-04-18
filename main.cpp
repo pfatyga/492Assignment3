@@ -202,15 +202,25 @@ int main(int argc, char **argv) {
 		}
 		else if(command == "ls")
 		{
-
+			Directory_node::ls_print(current_directory);
 		}
 		else if(command == "mkdir")
 		{
-
+			string directory;
+			cin >> directory;
+			if(!(current_directory->create_subdirectory(directory)))	//return false if directory/file already exists
+			{
+				std::cout << "Cannot create directory \'" << directory << "\': File exists\n";
+			}
 		}
 		else if(command == "create")
 		{
-
+			string file_name;
+			cin >> file_name;
+			if(!current_directory->create_file(file_name, 0))
+			{
+				std::cout << "Cannot create file \'" << file_name << "\': File exists\n";
+			}
 		}
 		else if(command == "append")
 		{
@@ -222,7 +232,9 @@ int main(int argc, char **argv) {
 		}
 		else if(command == "delete")
 		{
-
+			string name;
+			cin >> name;
+			current_directory->delete_child(name);
 		}
 		else if(command == "dir")
 		{

@@ -77,7 +77,7 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 				if(!(temp_name = strtok(NULL, "/")))	//if there is no more in string then create the file
 				{
 					File_node *file = new File_node(file_name, temp_path, size);
-					bool success = file->allocate_disk_space();
+					bool success = size > 0 ? file->allocate_disk_space() : true;
 					temp->children[file_name] = file;
 					return success;
 				}
@@ -98,6 +98,20 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 	return false;
 }
 
+bool Directory_node::create_file(std::string name, unsigned int size) {
+	if(this->children[name] == NULL)
+	{
+		File_node *file = new File_node(name, this->path + "/" + name, size);
+		bool success = size > 0 ? file->allocate_disk_space() : true;
+		this->children[name] = file;
+		return success;
+	}
+	else	//directory already exists
+	{
+		return false;
+	}
+}
+
 bool Directory_node::create_subdirectory(std::string name) {
 	if(this->children[name] == NULL)
 	{
@@ -110,12 +124,41 @@ bool Directory_node::create_subdirectory(std::string name) {
 	}
 }
 
-void Directory_node::dir_print(Tree_node *root) {
-	Directory_node *temp = dynamic_cast<Directory_node *>(root);
-	for(auto it = temp->children.begin(); it != temp->children.end(); it++)
+bool Directory_node::delete_child(std::string name) {
+	auto it = children.find(name);
+	if(it != children.end()) {
+		if((*it).second->is_directory())
+		{
+			Directory_node *temp = dynamic_cast<Directory_node *>((*it).second);
+			if(temp->children.size() > 0)
+			{
+				std::cout << "Directory not empty.\n";
+				return false;
+			}
+		}
+		delete (*it).second;
+		children.erase(it);
+		return true;
+	}
+	else
+	{
+		std::cout << "File not found.\n";
+		return false;
+	}
+}
+
+void Directory_node::dir_print(Directory_node *root) {
+	for(auto it = root->children.begin(); it != root->children.end(); it++)
 	{
 		if((*it).second->is_directory())
 			std::cout << (*it).second->get_name() << '\n';
+	}
+}
+
+void Directory_node::ls_print(Directory_node *root) {
+	for(auto it = root->children.begin(); it != root->children.end(); it++)
+	{
+		std::cout << (*it).second->get_name() << '\n';
 	}
 }
 
