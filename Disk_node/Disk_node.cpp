@@ -54,6 +54,7 @@ void Disk_node::merge() {
 	unsigned int left = this->block_ID_start;
 	unsigned int right = this->block_ID_end;
 	temp = this->next;
+	//merge everything to the right into this Disk_node
 	while (temp != NULL && temp->in_use == this->in_use) {
 		std::cout << "right side\n";
 		right = temp->block_ID_end;
@@ -71,6 +72,7 @@ void Disk_node::merge() {
 	//std::cout << "merged right side: " << this << '\n';
 	temp = this->prev;
 	//std::cout << "prev: " << temp << '\n';
+	//merge everything to the left into this Disk_node EXCEPT the first node.
 	while (temp != NULL && temp->in_use == this->in_use) {
 		//std::cout << "merge: " << *temp << '\n';
 		left = temp->block_ID_start;
@@ -84,7 +86,7 @@ void Disk_node::merge() {
 				temp->next->prev = temp;
 			temp->block_ID_end = this->block_ID_end;
 			temp->update_size();
-			delete this;//we cant delete the root. It might be used somewhere else. Delete this object instead
+			delete this;	//we cant delete the root. It might be used somewhere else. Merge into root and delete this object
 			return;
 		}
 	}

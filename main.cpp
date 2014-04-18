@@ -1,5 +1,5 @@
 //============================================================================
-// Name        : 492Assignment3.cpp
+// Name        : main.cpp
 // Author      : Piotr Fatyga
 // Login	   : pfatyga
 // Version     :
@@ -151,20 +151,6 @@ int main(int argc, char **argv) {
 	cin >> command;
 	while(command != "exit")
 	{
-		/*
-		 * 	cd [directory]- set specified directory as the current directory
-			cd..- set parent directory as current directory
-			ls - list all files and sub-directories in current directory
-			mkdir [name]- create a new directory in the current directory
-			create [name]- create a new file in the current directory
-			append [name] [bytes]-append a number of bytes to the file
-			remove [name] [bytes]-delete a number of bytes from the file
-			delete [name]- delete the file or directory
-			exit-de-allocate data structures and exit program
-			dir- print outdirectory tree in breadth-first order
-			prfiles- print out all file information
-			prdisk- print out disk space information
-		 */
 		if(command == "cd")
 		{
 			string directory;

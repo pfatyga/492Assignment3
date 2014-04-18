@@ -2,7 +2,8 @@
  * Tree_node.cpp
  *
  *  Created on: Apr 13, 2014
- *      Author: peter
+ *      Author: Piotr Fatyga
+ *      Login:	pfatyga
  */
 
 #include "Tree_node.h"
