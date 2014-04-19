@@ -191,12 +191,23 @@ int main(int argc, char **argv) {
 			if(file != NULL)
 			{
 				file->append(bytes_to_append);
+				if(file->get_file() != NULL)
+					cout << *(file->get_file()) << '\n';
 			}
-			cout << *(file->get_file()) << '\n';
 		}
 		else if(command == "remove")
 		{
-
+			string file_name;
+			unsigned int bytes_to_shorten;
+			cin >> file_name;
+			cin >> bytes_to_shorten;
+			File_node *file = current_directory->get_file(file_name);
+			if(file != NULL)
+			{
+				file->shorten(bytes_to_shorten);
+				if(file->get_file() != NULL)
+					cout << *(file->get_file()) << '\n';
+			}
 		}
 		else if(command == "delete")
 		{
@@ -216,6 +227,11 @@ int main(int argc, char **argv) {
 		else if(command == "prdisk")
 		{
 
+		}
+		if (cin.fail()) {
+		  cout << "Invalid Argument\n";
+		  cin.clear();
+		  cin.ignore();
 		}
 		cout << current_directory->get_path() << "> ";
 		cin >> command;

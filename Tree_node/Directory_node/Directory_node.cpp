@@ -32,7 +32,7 @@ Directory_node *Directory_node::get_directory(std::string name) {
 	{
 		if(parent_directory == NULL)
 			std::cout << "no parent directory\n";
-		return NULL;
+		return parent_directory;
 	}
 	if(children.find(name) != children.end())	//cant just check children[name] == NULL because it actually creates the key,value pair and then causes segfaults later on
 	{

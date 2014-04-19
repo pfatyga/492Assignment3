@@ -84,6 +84,25 @@ bool File_node::append(unsigned int size) {
 		return false;
 }
 
+bool File_node::shorten(unsigned int size) {
+	if(size == 0)
+		return true;
+	if(size > this->size)
+		this->size = 0;
+	else
+		this->size -= size;
+	unsigned int blocks_to_remove = file->size() - ceil((double)(this->size) / Disk_node::block_size);
+	//std::cout << file->size() << " " << ceil((double)(this->size) / Disk_node::block_size) << '\n';
+	for(unsigned int i = 0; i < blocks_to_remove; i++)
+	{
+		File *temp = file;
+		file = file->next;
+		Tree_node::disk_nodes->free(temp->block_address / Disk_node::block_size);
+		delete temp;
+	}
+	return true;
+}
+
 bool File_node::allocate_disk_space() {
 	if(size == 0)
 		return true;

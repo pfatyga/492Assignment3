@@ -23,6 +23,7 @@ public:
 	virtual ~File_node();
 	bool allocate_disk_space();
 	bool append(unsigned int size);
+	bool shorten(unsigned int size);
 	File *get_file();
 	void update_timestamp();
 };
