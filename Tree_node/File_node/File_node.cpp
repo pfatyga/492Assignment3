@@ -18,27 +18,31 @@ File_node::File_node(std::string file_name, std::string file_path, unsigned int 
 
 File_node::~File_node() {
 	//TODO: Remove from Linked list
-	delete file;
+	//std::cout << "Calling deconstructor\n";
+	File *temp = file;
+	while(temp != NULL)
+	{
+		Tree_node::disk_nodes->free(temp->block_address / Disk_node::block_size);
+		File *prev = temp;
+		temp = temp->next;
+		delete prev;
+	}
 }
 
 File *File_node::get_file() {
 	return file;
 }
 
-bool File_node::allocate_disk_space() {
+File *File_node::allocate_disk_blocks(unsigned int number_blocks)
+{
+	if(number_blocks == 0)
+		return NULL;
 	Disk_node *available = Tree_node::disk_nodes->get_next_free_block();
-	//std::cout << "size: " << size << "block_size: " << Disk_node::block_size << '\n';
-	unsigned int number_blocks = (size / Disk_node::block_size) + 1;	//integer division: 5 / 2 = 2 but we need 3 blocks
-	//std::cout << "Allocating " << number_blocks << " for " << path << '\n';
-	//std::cout << number_blocks << '\n';
 	File *f = NULL;
 	while(number_blocks > 0 && available != NULL)
 	{
-		//std::cout << *available << '\n';
-		//std::cout << number_blocks << '\n';
 		available->split(number_blocks);
 		available->in_use = true;
-		//std::cout << *(Tree_node::disk_nodes) << '\n';
 		for(unsigned int i = available->block_ID_start; i <= available->block_ID_end; i++)
 		{
 			if(f == NULL)
@@ -47,16 +51,52 @@ bool File_node::allocate_disk_space() {
 				f->append(new File(i * Disk_node::block_size));
 		}
 		available->merge();
-		//std::cout << *(Tree_node::disk_nodes) << '\n';
-		//std::cout << number_blocks << " " << available->block_ID_size << '\n';
-		assert(available->block_ID_size <= number_blocks);
+		assert(available->block_ID_size <= number_blocks);	//make sure number_blocks doesn't overflow
 		number_blocks -= available->block_ID_size;
 		available = Tree_node::disk_nodes->get_next_free_block();
 	}
-	if(number_blocks > 0)	//not enough space
+	if(number_blocks > 0)
+	{
+		std::cout << "Out of space.\n";
+		assert(Tree_node::disk_nodes->get_next_free_block() == NULL);
+	}
+	return f;
+}
+
+bool File_node::append(unsigned int size) {
+	if(size == 0)
+		return true;
+	this->size += size;
+	unsigned int number_blocks = ceil((double)(this->size) / Disk_node::block_size);
+	unsigned int blocks_needed = number_blocks - (file != NULL ? file->size() : 0);
+	File *f = allocate_disk_blocks(blocks_needed);
+
+	if(file != NULL)
+		file->append(f);
+	else
+		file = f;
+
+	update_timestamp();
+
+	if(file->size() == number_blocks)
+		return true;
+	else
 		return false;
+}
+
+bool File_node::allocate_disk_space() {
+	if(size == 0)
+		return true;
+	//std::cout << "size: " << size << "block_size: " << Disk_node::block_size << '\n';
+	unsigned int number_blocks = ceil((double)size / Disk_node::block_size);
+	//std::cout << "Allocating " << number_blocks << " for " << path << '\n';
+	//std::cout << number_blocks << '\n';
+	File *f = allocate_disk_blocks(number_blocks);
 	this->file = f;
-	return true;
+	if(this->file->size() == ceil((double)size / Disk_node::block_size))
+		return true;
+	else
+		return false;
 }
 
 void File_node::update_timestamp() {

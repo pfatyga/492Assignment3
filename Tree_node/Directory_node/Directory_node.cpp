@@ -25,6 +25,54 @@ Directory_node::~Directory_node() {
 	// TODO Auto-generated destructor stub
 }
 
+Directory_node *Directory_node::get_directory(std::string name) {
+	if(name == ".")
+		return this;
+	if(name == "..")
+	{
+		if(parent_directory == NULL)
+			std::cout << "no parent directory\n";
+		return NULL;
+	}
+	if(children.find(name) != children.end())	//cant just check children[name] == NULL because it actually creates the key,value pair and then causes segfaults later on
+	{
+		if(children[name]->is_directory())
+		{
+			return dynamic_cast<Directory_node *>(children[name]);
+		}
+		else	//not a directory
+		{
+			std::cout << "not a directory: " << name << '\n';
+		}
+	}
+	else
+	{
+		std::cout << "no such file or directory: " << name << '\n';
+	}
+	return NULL;
+
+}
+
+File_node *Directory_node::get_file(std::string name) {
+	if(children.find(name) != children.end())	//cant just check children[name] == NULL because it actually creates the key,value pair and then causes segfaults later on
+	{
+		if(!(children[name]->is_directory()))
+		{
+			return dynamic_cast<File_node *>(children[name]);
+		}
+		else	//not a file
+		{
+			std::cout << "not a file: " << name << '\n';
+		}
+	}
+	else
+	{
+		std::cout << "no such file or directory: " << name << '\n';
+	}
+	return NULL;
+
+}
+
 void Directory_node::create_directory(char *path) {
 	if(path == this->path)
 		return;
@@ -79,6 +127,10 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 					File_node *file = new File_node(file_name, temp_path, size);
 					bool success = size > 0 ? file->allocate_disk_space() : true;
 					temp->children[file_name] = file;
+					//////////////////////////////////////
+					//if(size > 0)
+					//	std::cout << *(file->get_file()) << '\n';
+					////////////////////////////////////////
 					return success;
 				}
 				else

@@ -22,6 +22,8 @@ public:
 	Directory_node(std::string directory_name);
 	Directory_node(std::string directory_name, std::string directory_path, Directory_node *parent_directory);
 	virtual ~Directory_node();
+	Directory_node *get_directory(std::string name);
+	File_node *get_file(std::string name);
 	void create_directory(char *path);
 	bool create_file(char *path, unsigned int size);
 	bool create_file(std::string name, unsigned int size);

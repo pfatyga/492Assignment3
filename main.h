@@ -13,6 +13,7 @@
 #include <cassert>
 #include <string>
 #include <cstring>
+#include <cmath>
 #include <map>
 
 #endif /* MAIN_H_ */

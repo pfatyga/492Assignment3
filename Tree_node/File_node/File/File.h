@@ -30,6 +30,9 @@ public:
 	File(unsigned int block_address);
 	virtual ~File();
 	void append(File *end);
+	unsigned int size();
+
+	friend std::ostream &operator<<(std::ostream &os, File const &node);
 };
 
 #endif /* FILE_H_ */

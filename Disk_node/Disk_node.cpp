@@ -20,13 +20,12 @@ Disk_node::Disk_node(unsigned int block_ID_start, unsigned int block_ID_end) {
 	update_size();
 }
 
-Disk_node::Disk_node(unsigned int block_ID_start, unsigned int block_ID_end,
-		Disk_node *prev, Disk_node *next) {
+Disk_node::Disk_node(unsigned int block_ID_start, unsigned int block_ID_end, bool in_use, Disk_node *prev, Disk_node *next) {
 	this->block_ID_start = block_ID_start;
 	this->block_ID_end = block_ID_end;
 	this->prev = prev;
 	this->next = next;
-	this->in_use = false;
+	this->in_use = in_use;
 	update_size();
 	if (this->next != NULL)
 		this->next->prev = this;
@@ -36,16 +35,22 @@ Disk_node::~Disk_node() {
 	// TODO Auto-generated destructor stub
 }
 
-void Disk_node::split(unsigned int next_block_ID_start) {
+Disk_node *Disk_node::split(unsigned int next_block_ID_start) {
 	next_block_ID_start += this->block_ID_start;	//relative
 	//std::cout << "Splitting [" << block_ID_start << "," << block_ID_end << "] at " << next_block_ID_start << '\n';
-	if (next_block_ID_start > this->block_ID_end)
-		return;
-	assert(next_block_ID_start > this->block_ID_start && next_block_ID_start < this->block_ID_end);
-	next = new Disk_node(next_block_ID_start, this->block_ID_end, this, this->next);
+	if (next_block_ID_start <= this->block_ID_start || next_block_ID_start > this->block_ID_end)
+		return this;
+	//std::cout << "[" << block_ID_start << ", " << block_ID_end << "]\n";
+	//std::cout << "next_block: " << next_block_ID_start << '\n';
+	assert(next_block_ID_start > this->block_ID_start);
+	assert(next_block_ID_start <= this->block_ID_end);
+	next = new Disk_node(next_block_ID_start, this->block_ID_end, this->in_use, this, this->next);
+	if(next->next != NULL)
+		next->next->prev = next;
 	block_ID_end = next_block_ID_start - 1;
 	update_size();
 	assert(block_ID_start <= block_ID_end);
+	return next;
 }
 
 void Disk_node::merge() {
@@ -56,12 +61,13 @@ void Disk_node::merge() {
 	temp = this->next;
 	//merge everything to the right into this Disk_node
 	while (temp != NULL && temp->in_use == this->in_use) {
-		std::cout << "right side\n";
+		//std::cout << "right side\n";
 		right = temp->block_ID_end;
 		if (temp->next != NULL) {
 			temp = temp->next;
 			delete temp->prev;
 			temp->prev = this;
+			this->next = temp;
 		} else {
 			delete temp;
 			temp = NULL;
@@ -74,13 +80,19 @@ void Disk_node::merge() {
 	//std::cout << "prev: " << temp << '\n';
 	//merge everything to the left into this Disk_node EXCEPT the first node.
 	while (temp != NULL && temp->in_use == this->in_use) {
+		//std::cout << "left side\n";
+		//std::cout << temp << '\n';
 		//std::cout << "merge: " << *temp << '\n';
 		left = temp->block_ID_start;
 		if (temp->prev != NULL) {
+			//std::cout << "A\n";
 			temp = temp->prev;
 			delete temp->next;
+			//std::cout << temp << '\n';
 			temp->next = this;
+			this->prev = temp;
 		} else {
+			//std::cout << "B\n";
 			temp->next = this->next;
 			if(temp->next != NULL)
 				temp->next->prev = temp;
@@ -92,6 +104,10 @@ void Disk_node::merge() {
 	}
 	this->block_ID_start = left;
 	this->update_size();
+	if(this->prev != NULL)
+		assert(this->prev->next == this);
+	if(this->next != NULL)
+		assert(this->next->prev == this);
 	//std::cout << "done\n";
 }
 
@@ -112,6 +128,34 @@ Disk_node *Disk_node::get_next_free_block() {
 	while (temp != NULL && temp->in_use == true)
 		temp = temp->next;
 	return temp;
+}
+
+void Disk_node::free(unsigned int block_ID) {
+	Disk_node *temp = this;
+	while(temp != NULL && !(block_ID >= temp->block_ID_start && block_ID <= temp->block_ID_end))
+	{
+		temp = temp->next;
+	}
+	if(temp == NULL)
+		return;
+	//std::cout << "block_ID: " << block_ID << ", " << block_ID - temp->block_ID_start << '\n';
+	//std::cout << (*temp) << '\n';
+	//if(temp->prev != NULL)
+	//		std::cout << temp->prev->prev << '\n';
+	assert(temp->in_use == true);
+	temp = temp->split(block_ID - temp->block_ID_start);
+	//std::cout << (*temp) << '\n';
+	//if(temp->prev != NULL)
+	//	std::cout << temp->prev->prev << '\n';
+	temp->split(1);
+	temp->in_use = false;
+	//std::cout << (*temp) << '\n';
+	//if(temp->prev != NULL)
+	//		std::cout << temp->prev->prev << '\n';
+	temp->merge();
+	//if(temp->prev != NULL)
+	//		std::cout << temp->prev->prev << '\n';
+	//std::cout << (*temp) << '\n';
 }
 
 std::ostream &operator<<(std::ostream &os, Disk_node const &node) {

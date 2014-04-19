@@ -138,7 +138,7 @@ int main(int argc, char **argv) {
 		if(!G_root->create_file(path, size))
 		{
 			cout << "Failed to allocate disk space.\n";
-			file_list.close();
+			file_list.close();	//TODO: just continue, also create_file should print
 			return 0;
 		}
 	}
@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
 	file_list.close();
 
 	//Directory_node::BFS_print(G_root);
-	//cout << *L_disk << '\n';
+	cout << *L_disk << '\n';
 	cout << current_directory->get_path() << "> ";
 	cin >> command;
 	while(command != "exit")
@@ -155,36 +155,9 @@ int main(int argc, char **argv) {
 		{
 			string directory;
 			cin >> directory;
-			if(directory == "..")
-			{
-				if(current_directory->parent_directory != NULL)
-				{
-					current_directory = current_directory->parent_directory;
-				}
-				else
-				{
-					std::cout << "no parent directory\n";
-				}
-			}
-			else if(directory == ".")
-			{
-				//current_directory = current_directory;	//dont do anything
-			}
-			else if(current_directory->children.find(directory) != current_directory->children.end())	//cant just check current_directory->children[directory] == NULL because it actually creates the key,value pair and then causes segfaults later on
-			{
-				if(current_directory->children[directory]->is_directory())
-				{
-					current_directory = dynamic_cast<Directory_node *>(current_directory->children[directory]);
-				}
-				else	//not a directory
-				{
-					std::cout << "not a directory: " << directory << '\n';
-				}
-			}
-			else
-			{
-				std::cout << "no such file or directory: " << directory << '\n';
-			}
+			Directory_node *temp = current_directory->get_directory(directory);
+			if(temp != NULL)
+				current_directory = temp;
 		}
 		else if(command == "ls")
 		{
@@ -210,7 +183,16 @@ int main(int argc, char **argv) {
 		}
 		else if(command == "append")
 		{
-
+			string file_name;
+			unsigned int bytes_to_append;
+			cin >> file_name;
+			cin >> bytes_to_append;
+			File_node *file = current_directory->get_file(file_name);
+			if(file != NULL)
+			{
+				file->append(bytes_to_append);
+			}
+			cout << *(file->get_file()) << '\n';
 		}
 		else if(command == "remove")
 		{
@@ -221,6 +203,7 @@ int main(int argc, char **argv) {
 			string name;
 			cin >> name;
 			current_directory->delete_child(name);
+			cout << *L_disk << '\n';
 		}
 		else if(command == "dir")
 		{

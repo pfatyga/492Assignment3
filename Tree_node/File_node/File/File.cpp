@@ -22,3 +22,21 @@ void File::append(File *end) {
 		temp = temp->next;
 	temp->next = end;
 }
+
+unsigned int File::size() {
+	unsigned int total = 1;
+	File *temp = this;
+	while ((temp = temp->next) != NULL)
+		total++;
+	return total;
+}
+
+std::ostream &operator<<(std::ostream &os, File const &node) {
+	File *temp = node.next;
+	os << &node << ":[" << node.block_address << "]";
+	while (temp != NULL) {
+		os << '\t' << temp << ":[" << temp->block_address << "]";
+		temp = temp->next;
+	};
+	return os;
+}

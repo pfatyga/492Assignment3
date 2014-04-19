@@ -17,10 +17,12 @@ class File_node: public Tree_node {
 	unsigned int size;
 	std::string timestamp;
 	File *file;
+	File *allocate_disk_blocks(unsigned int number_blocks);
 public:
 	File_node(std::string file_name, std::string file_path, unsigned int file_size);
 	virtual ~File_node();
 	bool allocate_disk_space();
+	bool append(unsigned int size);
 	File *get_file();
 	void update_timestamp();
 };
