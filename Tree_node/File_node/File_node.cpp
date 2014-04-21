@@ -12,6 +12,7 @@ File_node::File_node(std::string file_name, std::string file_path, unsigned int 
 	name = file_name;
 	path = file_path;
 	size = file_size;
+	file = NULL;
 	directory = false;
 	update_timestamp();
 }
@@ -68,9 +69,13 @@ bool File_node::append(unsigned int size) {
 		return true;
 	this->size += size;
 	unsigned int number_blocks = ceil((double)(this->size) / Disk_node::block_size);
+	//std::cout << "file: " << file << '\n';
+	//std::cout << "number_blocks: " << number_blocks << '\n';
 	unsigned int blocks_needed = number_blocks - (file != NULL ? file->size() : 0);
+	//std::cout << "blocks_needed: " << blocks_needed << '\n';
 	File *f = allocate_disk_blocks(blocks_needed);
-
+	//if(f)
+	//	std::cout << *f << '\n';
 	if(file != NULL)
 		file->append(f);
 	else

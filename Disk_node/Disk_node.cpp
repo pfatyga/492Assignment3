@@ -158,13 +158,32 @@ void Disk_node::free(unsigned int block_ID) {
 	//std::cout << (*temp) << '\n';
 }
 
-std::ostream &operator<<(std::ostream &os, Disk_node const &node) {
+/*std::ostream &operator<<(std::ostream &os, Disk_node const &node) {
 	Disk_node *temp = node.next;
 	os << &node << ":[" << node.block_ID_start << "," << node.block_ID_end
 			<< "," << node.in_use << "]";
 	while (temp != NULL) {
 		os << '\t' << temp << ":[" << temp->block_ID_start << ","
 				<< temp->block_ID_end << "," << temp->in_use << "]";
+		temp = temp->next;
+	};
+	return os;
+}*/
+
+std::ostream &operator<<(std::ostream &os, Disk_node const &node) {
+	Disk_node *temp = node.next;
+	std::string temp_use;
+	if(node.in_use)
+		temp_use = "In use: ";
+	else
+		temp_use = "Free: ";
+	os << temp_use << node.block_ID_start << "-" << node.block_ID_end;
+	while (temp != NULL) {
+		if(temp->in_use)
+				temp_use = "In use: ";
+			else
+				temp_use = "Free: ";
+		os << '\n' << temp_use << temp->block_ID_start << "-" << temp->block_ID_end;
 		temp = temp->next;
 	};
 	return os;

@@ -191,8 +191,8 @@ int main(int argc, char **argv) {
 			if(file != NULL)
 			{
 				file->append(bytes_to_append);
-				if(file->get_file() != NULL)
-					cout << *(file->get_file()) << '\n';
+				//if(file->get_file() != NULL)
+				//	cout << *(file->get_file()) << '\n';
 			}
 		}
 		else if(command == "remove")
@@ -205,8 +205,8 @@ int main(int argc, char **argv) {
 			if(file != NULL)
 			{
 				file->shorten(bytes_to_shorten);
-				if(file->get_file() != NULL)
-					cout << *(file->get_file()) << '\n';
+				//if(file->get_file() != NULL)
+				//	cout << *(file->get_file()) << '\n';
 			}
 		}
 		else if(command == "delete")
@@ -214,7 +214,7 @@ int main(int argc, char **argv) {
 			string name;
 			cin >> name;
 			current_directory->delete_child(name);
-			cout << *L_disk << '\n';
+			//cout << *L_disk << '\n';
 		}
 		else if(command == "dir")
 		{
@@ -233,6 +233,7 @@ int main(int argc, char **argv) {
 		  cin.clear();
 		  cin.ignore();
 		}
+		cout << *L_disk << '\n';
 		cout << current_directory->get_path() << "> ";
 		cin >> command;
 	}
