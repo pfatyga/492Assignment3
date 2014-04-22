@@ -200,10 +200,18 @@ bool Directory_node::delete_child(std::string name) {
 }
 
 void Directory_node::dir_print(Directory_node *root) {
-	for(auto it = root->children.begin(); it != root->children.end(); it++)
+	std::queue<Directory_node *> q;
+	q.push(root);
+	while(!(q.empty()))
 	{
-		if((*it).second->is_directory())
-			std::cout << (*it).second->get_name() << '\n';
+		Directory_node *temp = q.front();
+		q.pop();
+		std::cout << temp->path << '\n';
+		for(auto it = temp->children.begin(); it != temp->children.end(); it++)
+		{
+			if((*it).second->is_directory())
+				q.push((dynamic_cast<Directory_node *>((*it).second)));
+		}
 	}
 }
 
