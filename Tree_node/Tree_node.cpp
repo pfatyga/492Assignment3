@@ -25,5 +25,5 @@ bool Tree_node::is_directory() {
 void Tree_node::update_timestamp() {
 	time_t now = time(0);
 	tm *gmtm = gmtime(&now);
-	timestamp = asctime(gmtm);
+	this->timestamp = asctime(gmtm);
 }
