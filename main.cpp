@@ -226,14 +226,13 @@ int main(int argc, char **argv) {
 		}
 		else if(command == "prdisk")
 		{
-
+			cout << *L_disk << '\n';
 		}
 		if (cin.fail()) {
 		  cout << "Invalid Argument\n";
 		  cin.clear();
 		  cin.ignore();
 		}
-		cout << *L_disk << '\n';
 		cout << current_directory->get_path() << "> ";
 		cin >> command;
 	}

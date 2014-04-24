@@ -5,7 +5,7 @@ TMN = hwk3a
 RM = rm -f
 
 all:
-	g++ -std=c++0x -Wall -g $(SRC) -o $(TMN)
+	g++ -std=c++0x -Wall -pg -g $(SRC) -o $(TMN)
 
 clean:
 	-$(RM) *.o

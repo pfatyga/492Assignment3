@@ -11,11 +11,13 @@
 
 #include "../main.h"
 #include "../Disk_node/Disk_node.h"
+#include <ctime>
 
 class Tree_node {
 protected:
 	std::string name;
 	std::string path;
+	char *timestamp;
 	bool directory;	//1 - directory, 0 - file
 public:
 	Tree_node() {};
@@ -23,7 +25,7 @@ public:
 	std::string get_name();
 	std::string get_path();
 	bool is_directory();
-	//static void BFS_print(Tree_node *root);
+	void update_timestamp();
 	static Disk_node *disk_nodes;
 
 };

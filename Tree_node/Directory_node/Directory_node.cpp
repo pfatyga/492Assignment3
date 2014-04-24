@@ -12,6 +12,7 @@ Directory_node::Directory_node(std::string directory_name) {
 	path = directory_name;	//this is only used when creating the root node which has the same name and path (.)
 	parent_directory = NULL;
 	directory = true;
+	update_timestamp();
 }
 
 Directory_node::Directory_node(std::string directory_name, std::string directory_path, Directory_node *parent_directory) {
@@ -19,6 +20,7 @@ Directory_node::Directory_node(std::string directory_name, std::string directory
 	path = directory_path;
 	this->parent_directory = parent_directory;
 	directory = true;
+	update_timestamp();
 }
 
 Directory_node::~Directory_node() {
@@ -168,6 +170,7 @@ bool Directory_node::create_subdirectory(std::string name) {
 	if(this->children[name] == NULL)
 	{
 		this->children[name] = new Directory_node(name, this->path + "/" + name, this);
+		update_timestamp();
 		return true;
 	}
 	else	//directory already exists
@@ -190,6 +193,7 @@ bool Directory_node::delete_child(std::string name) {
 		}
 		delete (*it).second;
 		children.erase(it);
+		update_timestamp();
 		return true;
 	}
 	else
@@ -218,17 +222,9 @@ void Directory_node::dir_print(Directory_node *root) {
 void Directory_node::ls_print(Directory_node *root) {
 	for(auto it = root->children.begin(); it != root->children.end(); it++)
 	{
-		std::cout << (*it).second->get_name() << '\n';
-	}
-}
-
-void Directory_node::BFS_print(Tree_node *root) {
-	std::cout << root->get_path() << '\n';
-	if(!(root->is_directory()))
-		return;
-	Directory_node *temp = dynamic_cast<Directory_node *>(root);
-	for(auto it = temp->children.begin(); it != temp->children.end(); it++)
-	{
-		BFS_print((*it).second);
+		if((*it).second->is_directory())
+			std::cout << (*it).second->get_name() << '\n';
+		else
+			std::cout << *dynamic_cast<File_node *>((*it).second);
 	}
 }

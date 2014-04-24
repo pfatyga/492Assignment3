@@ -123,7 +123,7 @@ bool File_node::allocate_disk_space() {
 		return false;
 }
 
-void File_node::update_timestamp() {
-
+std::ostream &operator<<(std::ostream &os, File_node const &node) {
+	os << node.name << ": " << node.size << " bytes\t" << node.timestamp;
+	return os;
 }
-

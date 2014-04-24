@@ -22,13 +22,8 @@ bool Tree_node::is_directory() {
 	return directory;
 }
 
-/*void Tree_node::BFS_print(Tree_node *root) {
-	std::cout << root->get_path() << '\n';
-	if(!root->is_directory())
-		return;
-	Directory_node *temp = dynamic_cast<Directory_node *>(root);
-	for(auto it = temp->children.begin(); it != temp->children.end(); it++)
-	{
-		BFS_print(dynamic_cast<Directory_node *>((*it).second));
-	}
-}*/
+void Tree_node::update_timestamp() {
+	time_t now = time(0);
+	tm *gmtm = gmtime(&now);
+	timestamp = asctime(gmtm);
+}
