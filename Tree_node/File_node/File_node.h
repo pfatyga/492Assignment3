@@ -23,6 +23,7 @@ public:
 	bool allocate_disk_space();
 	bool append(unsigned int size);
 	bool shorten(unsigned int size);
+	unsigned int fragmentation();
 	File *get_file();
 
 	friend std::ostream &operator<<(std::ostream &os, File_node const &node);

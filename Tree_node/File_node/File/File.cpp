@@ -33,10 +33,21 @@ unsigned int File::size() {
 
 std::ostream &operator<<(std::ostream &os, File const &node) {
 	File *temp = node.next;
+	os << "[" << node.block_address;
+	while (temp != NULL) {
+		os << ", " << temp->block_address;
+		temp = temp->next;
+	};
+	os << "]";
+	return os;
+}
+
+/*std::ostream &operator<<(std::ostream &os, File const &node) {
+	File *temp = node.next;
 	os << &node << ":[" << node.block_address << "]" << "->" << node.next;
 	while (temp != NULL) {
 		os << '\t' << temp << ":[" << temp->block_address << "]" << "->" << temp->next;
 		temp = temp->next;
 	};
 	return os;
-}
+}*/

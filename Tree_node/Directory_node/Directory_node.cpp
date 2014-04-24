@@ -222,9 +222,40 @@ void Directory_node::dir_print(Directory_node *root) {
 void Directory_node::ls_print(Directory_node *root) {
 	for(auto it = root->children.begin(); it != root->children.end(); it++)
 	{
-		if((*it).second->is_directory())
+		//if((*it).second->is_directory())
 			std::cout << (*it).second->get_name() << '\n';
-		else
-			std::cout << *dynamic_cast<File_node *>((*it).second);
+		//else
+		//	std::cout << *dynamic_cast<File_node *>((*it).second);
 	}
+}
+
+void Directory_node::prfiles(Directory_node *root) {
+	std::queue<Directory_node *> q;
+	q.push(root);
+	while(!(q.empty()))
+	{
+		Directory_node *temp = q.front();
+		q.pop();
+		for(auto it = temp->children.begin(); it != temp->children.end(); it++)
+		{
+			if((*it).second->is_directory())
+				q.push((dynamic_cast<Directory_node *>((*it).second)));
+			else
+				std::cout << *(dynamic_cast<File_node *>((*it).second)) << '\n';
+		}
+	}
+}
+
+unsigned int Directory_node::fragmentation(Directory_node *root) {
+	if(root->children.empty())
+		return 0;
+	unsigned int total = 0;
+	for(auto it = root->children.begin(); it != root->children.end(); it++)
+	{
+		if((*it).second->is_directory())
+			total += fragmentation(dynamic_cast<Directory_node *>((*it).second));
+		else
+			total += dynamic_cast<File_node *>((*it).second)->fragmentation();
+	}
+	return total;
 }

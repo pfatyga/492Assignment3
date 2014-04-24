@@ -222,11 +222,12 @@ int main(int argc, char **argv) {
 		}
 		else if(command == "prfiles")
 		{
-
+			Directory_node::prfiles(G_root);
 		}
 		else if(command == "prdisk")
 		{
 			cout << *L_disk << '\n';
+			cout << "Fragmentation: " << Directory_node::fragmentation(G_root) << " bytes\n";
 		}
 		if (cin.fail()) {
 		  cout << "Invalid Argument\n";

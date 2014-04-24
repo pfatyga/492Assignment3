@@ -86,7 +86,10 @@ bool File_node::append(unsigned int size) {
 	if(file->size() == number_blocks)
 		return true;
 	else
+	{
+		this->size = file->size() * Disk_node::block_size;
 		return false;
+	}
 }
 
 bool File_node::shorten(unsigned int size) {
@@ -123,7 +126,18 @@ bool File_node::allocate_disk_space() {
 		return false;
 }
 
+unsigned int File_node::fragmentation() {
+	if(this->file != NULL)
+		return (this->file->size() * Disk_node::block_size) - this->size;
+	else
+		return 0;
+}
+
 std::ostream &operator<<(std::ostream &os, File_node const &node) {
-	os << node.name << ": " << node.size << " bytes\t" << node.timestamp;
+	os << node.path << ": " << node.size << " bytes\t" << node.timestamp;
+	if(node.file != NULL)
+		os << *(node.file);
+	else
+		os << "No blocks allocated";
 	return os;
 }

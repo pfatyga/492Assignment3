@@ -31,6 +31,8 @@ public:
 	bool delete_child(std::string name);	//delete a file or directory
 	static void dir_print(Directory_node *root);
 	static void ls_print(Directory_node *root);
+	static void prfiles(Directory_node *root);
+	static unsigned int fragmentation(Directory_node *root);
 };
 
 #endif /* DIRECTORY_NODE_H_ */

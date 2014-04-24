@@ -11,6 +11,7 @@
 #define FILE_H_
 
 #include "../../../main.h"
+#include "../../../Disk_node/Disk_node.h"
 
 /*
  * Each node in Lfile represents a file block.
