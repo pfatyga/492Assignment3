@@ -2,7 +2,8 @@ author: Piotr Fatyga
 login:  pfatyga
 -==================================README==================================-
 
-To run my assignment you must specify the following command-line parameters to the ./hwk3a executable in any order:
+First run make to create the executable ./hwk3a
+To run the executable you must specify the following command-line parameters in any order:
 
 	-f [dir_list.txt] [file_list.txt]
 	-s [disk size]

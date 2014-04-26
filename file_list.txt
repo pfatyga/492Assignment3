@@ -17,7 +17,6 @@
 5510702    4 -rw-rw-r--   1 peter    peter        1343 Apr 14 15:31 ./Disk_node/Disk_node.h
 5510036   12 -rw-rw-r--   1 peter    peter       11868 Apr 13 15:34 ./.cproject
 5510952    0 -rw-rw-r--   1 peter    peter           0 Apr 14 18:08 ./file_list.txt
-5510487    4 -rw-rw-r--   1 peter    peter         184 Apr 13 15:34 ./.gitignore
 5510967    4 -rw-------   1 peter    peter         390 Apr 13 19:39 ./Makefile
 5510542    0 -rw-rw-r--   1 peter    peter           0 Apr 13 16:03 ./readme.txt
 5509935    4 -rw-rw-r--   1 peter    peter         815 Apr 13 15:34 ./.project
