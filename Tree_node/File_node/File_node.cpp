@@ -93,21 +93,28 @@ bool File_node::append(unsigned int size) {
 }
 
 bool File_node::shorten(unsigned int size) {
+	std::cout << "Shortening " << name << " of size " << this->size << " by " << size << " bytes\n";
+	if(file == NULL)
+		return true;
 	if(size == 0)
 		return true;
 	if(size > this->size)
 		this->size = 0;
 	else
 		this->size -= size;
+	std::cout << "Has " << file->size() << " blocks\n";
 	unsigned int blocks_to_remove = file->size() - ceil((double)(this->size) / Disk_node::block_size);
+	std::cout << "Will remove " << blocks_to_remove << " blocks\n";
 	//std::cout << file->size() << " " << ceil((double)(this->size) / Disk_node::block_size) << '\n';
-	for(unsigned int i = 0; i < blocks_to_remove; i++)
+	if(file->shorten(blocks_to_remove))
+		file = NULL;
+	/*for(unsigned int i = 0; i < blocks_to_remove; i++)
 	{
 		File *temp = file;
 		file = file->next;
 		Tree_node::disk_nodes->free(temp->block_address / Disk_node::block_size);
 		delete temp;
-	}
+	}*/
 	return true;
 }
 

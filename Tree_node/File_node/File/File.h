@@ -12,6 +12,7 @@
 
 #include "../../../main.h"
 #include "../../../Disk_node/Disk_node.h"
+#include "../../Tree_node.h"
 
 /*
  * Each node in Lfile represents a file block.
@@ -31,6 +32,7 @@ public:
 	File(unsigned int block_address);
 	virtual ~File();
 	void append(File *end);
+	bool shorten(unsigned int blocks);
 	unsigned int size();
 
 	friend std::ostream &operator<<(std::ostream &os, File const &node);
