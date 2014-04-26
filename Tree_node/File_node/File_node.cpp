@@ -128,9 +128,17 @@ bool File_node::allocate_disk_space() {
 
 unsigned int File_node::fragmentation() {
 	if(this->file != NULL)
+	{
+		//unsigned int fragment = (this->file->size() * Disk_node::block_size) - this->size;
+		//std::cout << fragment << " fragmentation for " << this->path << '\n';
+		//return fragment;
 		return (this->file->size() * Disk_node::block_size) - this->size;
+	}
 	else
+	{
 		return 0;
+		//std::cout << "0 fragmentation for " << this->path << '\n';
+	}
 }
 
 std::ostream &operator<<(std::ostream &os, File_node const &node) {
