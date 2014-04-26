@@ -52,14 +52,14 @@ File *File_node::allocate_disk_blocks(unsigned int number_blocks)
 				f->append(new File(i * Disk_node::block_size));
 		}
 		available->merge();
-		assert(available->block_ID_size <= number_blocks);	//make sure number_blocks doesn't overflow
+		//assert(available->block_ID_size <= number_blocks);	//make sure number_blocks doesn't overflow
 		number_blocks -= available->block_ID_size;
 		available = Tree_node::disk_nodes->get_next_free_block();
 	}
 	if(number_blocks > 0)
 	{
 		std::cout << "Out of space.\n";
-		assert(Tree_node::disk_nodes->get_next_free_block() == NULL);
+		//assert(Tree_node::disk_nodes->get_next_free_block() == NULL);
 	}
 	return f;
 }
@@ -93,7 +93,7 @@ bool File_node::append(unsigned int size) {
 }
 
 bool File_node::shorten(unsigned int size) {
-	std::cout << "Shortening " << name << " of size " << this->size << " by " << size << " bytes\n";
+	//std::cout << "Shortening " << name << " of size " << this->size << " by " << size << " bytes\n";
 	if(file == NULL)
 		return true;
 	if(size == 0)
@@ -102,9 +102,9 @@ bool File_node::shorten(unsigned int size) {
 		this->size = 0;
 	else
 		this->size -= size;
-	std::cout << "Has " << file->size() << " blocks\n";
+	//std::cout << "Has " << file->size() << " blocks\n";
 	unsigned int blocks_to_remove = file->size() - ceil((double)(this->size) / Disk_node::block_size);
-	std::cout << "Will remove " << blocks_to_remove << " blocks\n";
+	//std::cout << "Will remove " << blocks_to_remove << " blocks\n";
 	//std::cout << file->size() << " " << ceil((double)(this->size) / Disk_node::block_size) << '\n';
 	if(file->shorten(blocks_to_remove))
 		file = NULL;

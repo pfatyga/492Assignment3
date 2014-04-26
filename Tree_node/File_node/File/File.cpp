@@ -53,8 +53,8 @@ bool File::shorten(unsigned int blocks) {
 		delete temp;
 		i++;
 	}
-	std::cout << "Removed " << i << " blocks\n";
-	assert(i <= blocks);
+	//std::cout << "Removed " << i << " blocks\n";
+	//assert(i <= blocks);
 	return deletethis;
 }
 

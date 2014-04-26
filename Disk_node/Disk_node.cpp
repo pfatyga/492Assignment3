@@ -42,14 +42,14 @@ Disk_node *Disk_node::split(unsigned int next_block_ID_start) {
 		return this;
 	//std::cout << "[" << block_ID_start << ", " << block_ID_end << "]\n";
 	//std::cout << "next_block: " << next_block_ID_start << '\n';
-	assert(next_block_ID_start > this->block_ID_start);
-	assert(next_block_ID_start <= this->block_ID_end);
+	//assert(next_block_ID_start > this->block_ID_start);
+	//assert(next_block_ID_start <= this->block_ID_end);
 	next = new Disk_node(next_block_ID_start, this->block_ID_end, this->in_use, this, this->next);
 	if(next->next != NULL)
 		next->next->prev = next;
 	block_ID_end = next_block_ID_start - 1;
 	update_size();
-	assert(block_ID_start <= block_ID_end);
+	//assert(block_ID_start <= block_ID_end);
 	return next;
 }
 
@@ -104,10 +104,10 @@ void Disk_node::merge() {
 	}
 	this->block_ID_start = left;
 	this->update_size();
-	if(this->prev != NULL)
+	/*if(this->prev != NULL)
 		assert(this->prev->next == this);
 	if(this->next != NULL)
-		assert(this->next->prev == this);
+		assert(this->next->prev == this);*/
 	//std::cout << "done\n";
 }
 
@@ -142,7 +142,7 @@ void Disk_node::free(unsigned int block_ID) {
 	//std::cout << (*temp) << '\n';
 	//if(temp->prev != NULL)
 	//		std::cout << temp->prev->prev << '\n';
-	assert(temp->in_use == true);
+	//assert(temp->in_use == true);
 	temp = temp->split(block_ID - temp->block_ID_start);
 	//std::cout << (*temp) << '\n';
 	//if(temp->prev != NULL)

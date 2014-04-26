@@ -1,4 +1,5 @@
 #include "Disk_node.h"
+#include <cassert>
 
 int main()
 {
