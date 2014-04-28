@@ -2,7 +2,8 @@
  * Directory_node.h
  *
  *  Created on: Apr 13, 2014
- *      Author: peter
+ *      Author: Piotr Fatyga
+ *      login:	pfatyga
  */
 
 #ifndef DIRECTORY_NODE_H_

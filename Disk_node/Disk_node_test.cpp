@@ -1,3 +1,8 @@
+/*
+ * Just a testing file for Disk_node
+ * author: Piotr Fatyga
+ * login:  pfatyga
+ */
 #include "Disk_node.h"
 #include <cassert>
 
