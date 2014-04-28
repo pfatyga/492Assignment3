@@ -110,7 +110,7 @@ bool File_node::allocate_disk_space() {
 	unsigned int number_blocks = ceil((double)size / Disk_node::block_size);
 	File *f = allocate_disk_blocks(number_blocks);
 	this->file = f;
-	if(this->file->size() == ceil((double)size / Disk_node::block_size))
+	if((this->file != NULL ? this->file->size() : 0) == ceil((double)size / Disk_node::block_size))
 		return true;
 	else
 		return false;
