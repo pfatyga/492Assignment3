@@ -98,9 +98,6 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 
-	//DEBUGGING
-	//cout << "dir_list: " << dir_list << ", file_list: " << file_list << ", disk_size: " << disk_size << ", block_size: " << block_size << '\n';
-
 	number_of_blocks = disk_size / block_size;
 
 	Disk_node::total_blocks = number_of_blocks;
@@ -130,22 +127,19 @@ int main(int argc, char **argv) {
 		char path[1000];
 		file_list >> ignore >> ignore >> ignore >> ignore >> ignore >> ignore;
 		file_list >> size >> month >> day >> time;
-		//cout << size << '\n';
 		file_list >> path;
-		//cout << path << '\n';
 		if(strcmp(path, ".") == 0)	//weird issue where it reads . as the path even though it's not in there
 			continue;
 		if(!G_root->create_file(path, size))
 		{
 			cout << "Failed to allocate disk space.\n";
-			file_list.close();	//TODO: just continue, also create_file should print
+			file_list.close();
 			return 0;
 		}
 	}
 
 	file_list.close();
 
-	//Directory_node::BFS_print(G_root);
 	cout << *L_disk << '\n';
 	cout << current_directory->get_path() << "> ";
 	cin >> command;
@@ -191,8 +185,6 @@ int main(int argc, char **argv) {
 			if(file != NULL)
 			{
 				file->append(bytes_to_append);
-				//if(file->get_file() != NULL)
-				//	cout << *(file->get_file()) << '\n';
 			}
 		}
 		else if(command == "remove")
@@ -205,8 +197,6 @@ int main(int argc, char **argv) {
 			if(file != NULL)
 			{
 				file->shorten(bytes_to_shorten);
-				//if(file->get_file() != NULL)
-				//	cout << *(file->get_file()) << '\n';
 			}
 		}
 		else if(command == "delete")
@@ -214,7 +204,6 @@ int main(int argc, char **argv) {
 			string name;
 			cin >> name;
 			current_directory->delete_child(name);
-			//cout << *L_disk << '\n';
 		}
 		else if(command == "dir")
 		{

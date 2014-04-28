@@ -27,6 +27,7 @@ Directory_node::~Directory_node() {
 	// TODO Auto-generated destructor stub
 }
 
+//get a Directory_node within this directory
 Directory_node *Directory_node::get_directory(std::string name) {
 	if(name == ".")
 		return this;
@@ -55,6 +56,7 @@ Directory_node *Directory_node::get_directory(std::string name) {
 
 }
 
+//get a File_node within this directory
 File_node *Directory_node::get_file(std::string name) {
 	if(children.find(name) != children.end())	//cant just check children[name] == NULL because it actually creates the key,value pair and then causes segfaults later on
 	{
@@ -75,6 +77,7 @@ File_node *Directory_node::get_file(std::string name) {
 
 }
 
+//create a directory in the root directory using a path - only used when initially loading directories from dir_list.txt
 void Directory_node::create_directory(char *path) {
 	if(path == this->path)
 		return;
@@ -106,6 +109,7 @@ void Directory_node::create_directory(char *path) {
 	}
 }
 
+//create a file in the root directory using a path - only used for initial creation of files from file_list.txt
 bool Directory_node::create_file(char *path, unsigned int size) {
 	std::cout << "Creating file " << path << '\n';
 	Directory_node *temp = this;
@@ -129,10 +133,6 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 					File_node *file = new File_node(file_name, temp_path, size);
 					bool success = size > 0 ? file->allocate_disk_space() : true;
 					temp->children[file_name] = file;
-					//////////////////////////////////////
-					//if(size > 0)
-					//	std::cout << *(file->get_file()) << '\n';
-					////////////////////////////////////////
 					return success;
 				}
 				else
@@ -152,6 +152,7 @@ bool Directory_node::create_file(char *path, unsigned int size) {
 	return false;
 }
 
+//create a file within this directory
 bool Directory_node::create_file(std::string name, unsigned int size) {
 	if(this->children[name] == NULL)
 	{
@@ -166,6 +167,7 @@ bool Directory_node::create_file(std::string name, unsigned int size) {
 	}
 }
 
+//create a directory within this directory
 bool Directory_node::create_subdirectory(std::string name) {
 	if(this->children[name] == NULL)
 	{
@@ -179,6 +181,7 @@ bool Directory_node::create_subdirectory(std::string name) {
 	}
 }
 
+//delete either a file or directory in this directory
 bool Directory_node::delete_child(std::string name) {
 	auto it = children.find(name);
 	if(it != children.end()) {
@@ -203,6 +206,7 @@ bool Directory_node::delete_child(std::string name) {
 	}
 }
 
+//dir command
 void Directory_node::dir_print(Directory_node *root) {
 	std::queue<Directory_node *> q;
 	q.push(root);
@@ -219,6 +223,7 @@ void Directory_node::dir_print(Directory_node *root) {
 	}
 }
 
+//ls command
 void Directory_node::ls_print(Directory_node *root) {
 	for(auto it = root->children.begin(); it != root->children.end(); it++)
 	{
@@ -229,6 +234,7 @@ void Directory_node::ls_print(Directory_node *root) {
 	}
 }
 
+//prfiles command
 void Directory_node::prfiles(Directory_node *root) {
 	std::queue<Directory_node *> q;
 	q.push(root);
@@ -246,6 +252,7 @@ void Directory_node::prfiles(Directory_node *root) {
 	}
 }
 
+//calculate the fragmentation of all files in this directory and in each subdirectory of this directory
 unsigned int Directory_node::fragmentation(Directory_node *root) {
 	if(root->children.empty())
 		return 0;

@@ -18,8 +18,6 @@ File_node::File_node(std::string file_name, std::string file_path, unsigned int 
 }
 
 File_node::~File_node() {
-	//TODO: Remove from Linked list
-	//std::cout << "Calling deconstructor\n";
 	File *temp = file;
 	while(temp != NULL)
 	{
@@ -34,6 +32,7 @@ File *File_node::get_file() {
 	return file;
 }
 
+//gets free blocks for L_disk and sets them to used and creates L_file
 File *File_node::allocate_disk_blocks(unsigned int number_blocks)
 {
 	if(number_blocks == 0)
@@ -64,18 +63,14 @@ File *File_node::allocate_disk_blocks(unsigned int number_blocks)
 	return f;
 }
 
+//append a file by a size (in bytes)
 bool File_node::append(unsigned int size) {
 	if(size == 0)
 		return true;
 	this->size += size;
 	unsigned int number_blocks = ceil((double)(this->size) / Disk_node::block_size);
-	//std::cout << "file: " << file << '\n';
-	//std::cout << "number_blocks: " << number_blocks << '\n';
 	unsigned int blocks_needed = number_blocks - (file != NULL ? file->size() : 0);
-	//std::cout << "blocks_needed: " << blocks_needed << '\n';
 	File *f = allocate_disk_blocks(blocks_needed);
-	//if(f)
-	//	std::cout << *f << '\n';
 	if(file != NULL)
 		file->append(f);
 	else
@@ -92,8 +87,8 @@ bool File_node::append(unsigned int size) {
 	}
 }
 
+//shortens a file by size (in bytes)
 bool File_node::shorten(unsigned int size) {
-	//std::cout << "Shortening " << name << " of size " << this->size << " by " << size << " bytes\n";
 	if(file == NULL)
 		return true;
 	if(size == 0)
@@ -102,29 +97,17 @@ bool File_node::shorten(unsigned int size) {
 		this->size = 0;
 	else
 		this->size -= size;
-	//std::cout << "Has " << file->size() << " blocks\n";
 	unsigned int blocks_to_remove = file->size() - ceil((double)(this->size) / Disk_node::block_size);
-	//std::cout << "Will remove " << blocks_to_remove << " blocks\n";
-	//std::cout << file->size() << " " << ceil((double)(this->size) / Disk_node::block_size) << '\n';
 	if(file->shorten(blocks_to_remove))
 		file = NULL;
-	/*for(unsigned int i = 0; i < blocks_to_remove; i++)
-	{
-		File *temp = file;
-		file = file->next;
-		Tree_node::disk_nodes->free(temp->block_address / Disk_node::block_size);
-		delete temp;
-	}*/
 	return true;
 }
 
+//calculates amount of blocks needed and allocates them in L_disk and L_file
 bool File_node::allocate_disk_space() {
 	if(size == 0)
 		return true;
-	//std::cout << "size: " << size << "block_size: " << Disk_node::block_size << '\n';
 	unsigned int number_blocks = ceil((double)size / Disk_node::block_size);
-	//std::cout << "Allocating " << number_blocks << " for " << path << '\n';
-	//std::cout << number_blocks << '\n';
 	File *f = allocate_disk_blocks(number_blocks);
 	this->file = f;
 	if(this->file->size() == ceil((double)size / Disk_node::block_size))
@@ -133,21 +116,19 @@ bool File_node::allocate_disk_space() {
 		return false;
 }
 
+//calculates the amount of fragmentation in the file
 unsigned int File_node::fragmentation() {
 	if(this->file != NULL)
 	{
-		//unsigned int fragment = (this->file->size() * Disk_node::block_size) - this->size;
-		//std::cout << fragment << " fragmentation for " << this->path << '\n';
-		//return fragment;
 		return (this->file->size() * Disk_node::block_size) - this->size;
 	}
 	else
 	{
 		return 0;
-		//std::cout << "0 fragmentation for " << this->path << '\n';
 	}
 }
 
+//print File_node using cout
 std::ostream &operator<<(std::ostream &os, File_node const &node) {
 	os << node.path << ": " << node.size << " bytes\t" << node.timestamp;
 	if(node.file != NULL)

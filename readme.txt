@@ -13,4 +13,4 @@ To run the executable you must specify the following command-line parameters in 
 	* make sure you make the disk_size (-s) AT LEAST 500000.
 
 Example Usage:
-./hwk3a -f "dir_list.txt" "file_list.txt" -s 500000 -b 4092
+./hwk3a -f "dir_list.txt" "file_list.txt" -s 500000 -b 4096

@@ -16,6 +16,7 @@ File::~File() {
 	// TODO Auto-generated destructor stub
 }
 
+//append a File * to the end of this L_file linked list
 void File::append(File *end) {
 	File *temp = this;
 	while(temp->next != NULL)
@@ -23,6 +24,8 @@ void File::append(File *end) {
 	temp->next = end;
 }
 
+//shorten L_file by a specified amount of blocks and free the disk space in L_disk
+//returns true if this was also deleted in which case we must delete the reference to the File in File_node
 bool File::shorten(unsigned int blocks) {
 	if(blocks == 0)
 		return false;
@@ -53,11 +56,11 @@ bool File::shorten(unsigned int blocks) {
 		delete temp;
 		i++;
 	}
-	//std::cout << "Removed " << i << " blocks\n";
 	//assert(i <= blocks);
 	return deletethis;
 }
 
+//returns the size of L_file linked list
 unsigned int File::size() {
 	unsigned int total = 1;
 	File *temp = this;
@@ -66,6 +69,7 @@ unsigned int File::size() {
 	return total;
 }
 
+//print L_file using cout
 std::ostream &operator<<(std::ostream &os, File const &node) {
 	File *temp = node.next;
 	os << "[" << node.block_address;
@@ -76,13 +80,3 @@ std::ostream &operator<<(std::ostream &os, File const &node) {
 	os << "]";
 	return os;
 }
-
-/*std::ostream &operator<<(std::ostream &os, File const &node) {
-	File *temp = node.next;
-	os << &node << ":[" << node.block_address << "]" << "->" << node.next;
-	while (temp != NULL) {
-		os << '\t' << temp << ":[" << temp->block_address << "]" << "->" << temp->next;
-		temp = temp->next;
-	};
-	return os;
-}*/
